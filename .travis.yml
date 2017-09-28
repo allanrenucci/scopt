@@ -1,40 +1,5 @@
-sudo: false
-
-# These directories are cached to S3 at the end of the build
-cache:
-  directories:
-    - $HOME/.ivy2/cache
-    - $HOME/.sbt/boot/
-
 language: scala
-
 script:
-  - sbt ++$TRAVIS_SCALA_VERSION -Dfile.encoding=UTF8 -J-XX:ReservedCodeCacheSize=256M "project $TEST_PROJECT" test
-
-  # Tricks to avoid unnecessary cache updates
-  - find $HOME/.sbt -name "*.lock" | xargs rm
-  - find $HOME/.ivy2 -name "ivydata-*.properties" | xargs rm
-
-env:
-  matrix:
-    - TEST_PROJECT="scoptJVM"
-    - TEST_PROJECT="scoptJS"
-
-scala:
-   - 2.10.6
-   - 2.11.11
-   - 2.12.3
-   - 2.13.0-M1
-
-jdk: oraclejdk8
-
-matrix:
-  include:
-  - scala: 2.11.11
-    sudo: required
-    before_script:
-    - sudo chmod +x /usr/local/bin/sbt
-    before_install:
-    - curl https://raw.githubusercontent.com/scala-native/scala-native/21539aa97947f7/bin/travis_setup.sh | bash -x
-    script:
-    - sbt ++$TRAVIS_SCALA_VERSION nativeTest/run
+  - sbt scoptJVM/compile "last scoptJVM/compile:compileIncremental"
+jdk:
+  - oraclejdk8

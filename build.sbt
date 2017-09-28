@@ -44,10 +44,19 @@ lazy val scopt = (crossProject(JSPlatform, JVMPlatform, NativePlatform) in file(
   )
 
 lazy val scoptJS = scopt.js
-lazy val scoptJVM = scopt.jvm
+lazy val scoptJVM = scopt.jvm.settings(dottySettings)
 lazy val scoptNative = scopt.native
 
 lazy val nativeTest = project.in(file("nativeTest")).
   dependsOn(scoptNative).
   enablePlugins(ScalaNativePlugin).
   settings(scalaVersion := scala211)
+
+lazy val dottySettings = List(
+  scalaVersion := dottyLatestNightlyBuild.get,
+  libraryDependencies := libraryDependencies.value.map(_.withDottyCompat()),
+  scalacOptions := {
+    if (isDotty.value) List("-language:Scala2")
+    else scalacOptions.value
+  }
+)
