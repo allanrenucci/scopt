@@ -29,8 +29,8 @@ lazy val scopt = (crossProject(JSPlatform, JVMPlatform, NativePlatform) in file(
     // to push, ghpages-push-site
     site.settings,
     site.includeScaladoc(s"$v/api"),
-    ghpages.settings,
-    git.remoteRepo := "git@github.com:scopt/scopt.git",
+    // ghpages.settings,
+    // git.remoteRepo := "git@github.com:scopt/scopt.git",
     description := """a command line options parsing library""",
     libraryDependencies += specs2 % Test,
     scalacOptions ++= Seq("-language:existentials"),
@@ -55,8 +55,5 @@ lazy val nativeTest = project.in(file("nativeTest")).
 lazy val dottySettings = List(
   scalaVersion := dottyLatestNightlyBuild.get,
   libraryDependencies := libraryDependencies.value.map(_.withDottyCompat()),
-  scalacOptions := {
-    if (isDotty.value) List("-language:Scala2")
-    else scalacOptions.value
-  }
+  scalacOptions := List("-language:Scala2")
 )
