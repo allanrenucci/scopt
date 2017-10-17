@@ -4,7 +4,7 @@ addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "0.7.1")
 
 // addSbtPlugin("com.typesafe.sbt" % "sbt-ghpages" % "0.5.2")
 
-addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.1.5")
+addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.1.6")
 
 ivyXML :=
   <dependency org="org.eclipse.jetty.orbit" name="javax.servlet"
